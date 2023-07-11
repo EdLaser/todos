@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  db:
+    environment:
+      POSTGRES_USER: "mysecretuser"
+      POSTGRES_DB: "todos"
+      POSTGRES_PASSWORD: "mysecretuser"
+    image: postgres:15-alpine
+    ports:
+      - "5432:5432"
+  web:
+    restart: on-failure
+    depends_on:
+      - db
+    # build: .
+    image: rust:1.70
+    env_file:
+      - ./todo-api/.env
+    ports:
+      - "8000:8000"
+    command: cargo run --manifest-path ./app
+    volumes:
+      - ./todo-api/:/app

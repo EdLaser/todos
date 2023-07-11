@@ -1,0 +1,46 @@
+networks:
+  example-network:
+services:
+  db-container:
+    image: demo_app_db
+    environment:
+      - MYSQL_ROOT_PASSWORD=somewordpress
+      - MYSQL_DATABASE=wordpress
+      - MYSQL_USER=wordpress
+      - MYSQL_PASSWORD=wordpress
+    networks:
+      - example-network
+  wordpress-container:
+    image: demo_app_wordpress
+    ports:
+      - 9875:9875
+    restart: always
+    environment:
+      - WORDPRESS_DB_HOST=db
+      - WORDPRESS_DB_USER=wordpress
+      - WORDPRESS_DB_PASSWORD=wordpress
+      - WORDPRESS_DB_NAME=wordpress
+    networks:
+      - example-network
+  puppeteer-container:
+    image: greencoding/puppeteer-chrome
+    setup-commands:
+      - cp /tmp/repo/puppeteer-flow.js /var/www/puppeteer-flow.js
+    networks:
+      - example-network
+
+flow:
+  - name: Check Website
+    container: puppeteer-container
+    commands:
+      - type: console
+        command: node /var/www/puppeteer-flow.js
+        note: Starting Puppeteer Flow
+        read-notes-stdout: true
+      - type: console
+        command: sleep 30
+        note: Idling
+      - type: console
+        command: node /var/www/puppeteer-flow.js
+        note: Starting Puppeteer Flow again
+        read-notes-stdout: true

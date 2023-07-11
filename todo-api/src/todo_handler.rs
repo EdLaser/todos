@@ -35,6 +35,14 @@ pub fn create_todo_handler(todo: Json<NewTodo>) -> Created<String> {
     create::create_todo(todo)
 }
 
+/* #[post("/new_todos", format = "application/json", data = "<todos>")]
+pub fn create_todos_handler(todos: Json<Vec<NewTodo>>) -> Created<String> {
+    
+    for todo in todos.iter() {
+        create::create_todo(todo);
+    }
+} */
+
 #[get("/delete/<todo_id>")]
 pub fn delete_todo_handler(todo_id: i32) -> Result<String, NotFound<String>> {
     let todos = delete::delete_todo(todo_id)?;
