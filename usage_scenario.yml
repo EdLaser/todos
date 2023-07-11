@@ -2,27 +2,27 @@ networks:
   example-network:
 services:
   db-container:
-    image: demo_app_db
+    image: postgres:15:alpine
     environment:
-      - MYSQL_ROOT_PASSWORD=somewordpress
-      - MYSQL_DATABASE=wordpress
-      - MYSQL_USER=wordpress
-      - MYSQL_PASSWORD=wordpress
+      - POSTGRES_USER: "mysecretuser"
+      - POSTGRES_DB: "todos"
+      - POSTGRES_PASSWORD: "mysecretpassword"
     networks:
       - example-network
-  wordpress-container:
-    image: demo_app_wordpress
+    ports: 5432:5432
+  web:
+    restart: on-failure
+    depends_on:
+      - db
+    build: .
+    environment:
+      - DATABASE_URL=postgres://mysecretuser:mysecretpassword@db:5432/todos
     ports:
-      - 9875:9875
-    restart: always
-    environment:
-      - WORDPRESS_DB_HOST=db
-      - WORDPRESS_DB_USER=wordpress
-      - WORDPRESS_DB_PASSWORD=wordpress
-      - WORDPRESS_DB_NAME=wordpress
+      - "8000:8000"
     networks:
       - example-network
-  puppeteer-container:
+
+  test-container:
     image: greencoding/puppeteer-chrome
     setup-commands:
       - cp /tmp/repo/puppeteer-flow.js /var/www/puppeteer-flow.js
@@ -31,7 +31,7 @@ services:
 
 flow:
   - name: Check Website
-    container: puppeteer-container
+    container: test-container
     commands:
       - type: console
         command: node /var/www/puppeteer-flow.js
