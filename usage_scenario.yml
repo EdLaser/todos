@@ -1,3 +1,8 @@
+name: Stress Test API
+author: Ruben
+version: 1
+architecture: linux
+description: Test if we can test the API and measure it
 networks:
   example-network:
 services:
@@ -23,9 +28,9 @@ services:
       - example-network
 
   test-container:
-    image: greencoding/puppeteer-chrome
+    image: loadimpact/k6
     setup-commands:
-      - cp /tmp/repo/puppeteer-flow.js /var/www/puppeteer-flow.js
+      - cp /k6/test.js /scripts/test.js
     networks:
       - example-network
 
@@ -34,13 +39,6 @@ flow:
     container: test-container
     commands:
       - type: console
-        command: node /var/www/puppeteer-flow.js
-        note: Starting Puppeteer Flow
-        read-notes-stdout: true
-      - type: console
-        command: sleep 30
-        note: Idling
-      - type: console
-        command: node /var/www/puppeteer-flow.js
-        note: Starting Puppeteer Flow again
+        command: run /scripts/test.js
+        note: Starting k6 flow
         read-notes-stdout: true
