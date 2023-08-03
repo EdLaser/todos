@@ -38,7 +38,7 @@ flow:
   - name: Check Website
     container: test-container
     commands:
-      - type: console
-        command: run /tmp/repo/k6/test.js
-        note: Starting k6 flow
-        read-notes-stdout: true
+    - type: console
+      command: run /tmp/repo/k6/test.js
+      note: Starting k6 flow
+      read-notes-stdout: true
