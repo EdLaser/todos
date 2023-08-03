@@ -31,8 +31,6 @@ services:
 
   test-container:
     image: loadimpact/k6
-    setup-commands:
-      - cp /k6/test.js /scripts/test.js
     networks:
       - example-network
 
@@ -41,6 +39,6 @@ flow:
     container: test-container
     commands:
       - type: console
-        command: run /scripts/test.js
+        command: run /tmp/repo/k6/test.js
         note: Starting k6 flow
         read-notes-stdout: true
