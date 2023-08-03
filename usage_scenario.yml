@@ -9,12 +9,13 @@ services:
   db-container:
     image: postgres:15-alpine
     environment:
-      - POSTGRES_USER: "mysecretuser"
-      - POSTGRES_DB: "todos"
-      - POSTGRES_PASSWORD: "mysecretpassword"
+      POSTGRES_USER: mysecretuser
+      POSTGRES_DB: todos
+      POSTGRES_PASSWORD: mysecretpassword
     networks:
       - example-network
-    ports: 5432:5432
+    ports: 
+      - 5432:5432
   
   web:
     restart: on-failure
@@ -22,7 +23,7 @@ services:
       - db
     build: .
     environment:
-      - DATABASE_URL=postgres://mysecretuser:mysecretpassword@db:5432/todos
+      DATABASE_URL: postgres://mysecretuser:mysecretpassword@db:5432/todos
     ports:
       - 8000:8000
     networks:
