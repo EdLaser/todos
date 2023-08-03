@@ -1,0 +1,1 @@
+docker run --rm -v /home/ruben/todos:/workspace:ro -v /home/ruben:/output gcr.io/kaniko-project/executor:latest --context dir:///workspace/. --destination=test --tar-path=/output/test.tar --no-push --dockerfile=./Dockerfile
