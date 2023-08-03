@@ -7,7 +7,7 @@ networks:
   example-network:
 services:
   db-container:
-    image: postgres:15:alpine
+    image: postgres:15-alpine
     environment:
       - POSTGRES_USER: "mysecretuser"
       - POSTGRES_DB: "todos"
@@ -15,6 +15,7 @@ services:
     networks:
       - example-network
     ports: 5432:5432
+  
   web:
     restart: on-failure
     depends_on:
@@ -23,7 +24,7 @@ services:
     environment:
       - DATABASE_URL=postgres://mysecretuser:mysecretpassword@db:5432/todos
     ports:
-      - "8000:8000"
+      - 8000:8000
     networks:
       - example-network
 
