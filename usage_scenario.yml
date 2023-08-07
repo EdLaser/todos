@@ -30,7 +30,21 @@ services:
       - example-network
 
   test-container:
-    image: loadimpact/k6
+    image: ubuntu
+    
+    setup-commands:
+      - apt-get update
+      - apt-get upgrade -y
+      - apt-get install wget -y
+      - apt-get install tar -y
+      - wget https://github.com/grafana/k6/releases/download/v0.45.1/k6-v0.45.1-linux-amd64.tar.gz
+      - tar -xf k6-v0.45.1-linux-amd64.tar.gz
+      - wget https://github.com/grafana/k6/releases/download/v0.45.1/k6-v0.45.1-linux-amd64.deb
+      - apt install ./k6-v0.45.1-linux-amd64.deb
+      # - cd k6-v0.45.1-linux-amd64
+      # - export PATH="$HOME/$(pwd):$PATH"
+      # - k6 run /tmp/repo/k6/test.js
+
     networks:
       - example-network
 
@@ -39,6 +53,6 @@ flow:
     container: test-container
     commands:
     - type: console
-      command: run /tmp/repo/k6/test.js
+      command: k6 run /tmp/repo/k6/test.js
       note: Starting k6 flow
       read-notes-stdout: true
