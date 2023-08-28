@@ -2,35 +2,39 @@ import http from 'k6/http';
 import { sleep } from 'k6';
 
 export let options = {
-  vus: 10,
-  duration: '30s',
+  stages: [
+    { duration: '1m', target: 100 }, // ramp up to 100 users
+    { duration: '3m', target: 100 }, // stay at 100 users
+    { duration: '1m', target: 0 },   // scale down. (optional)
+  ],
 };
 
 export default function () {
-  // Test the list_todos_handler() endpoint
-  http.get('http://web:8000/');
-  sleep(1);
+  let baseUrl = "http://web:8000"; // Replace with your actual base URL
 
-  // Test the list_todo_handler(todo_id) endpoint
-  http.get('http://web:8000/todo/1'); // Replace '1' with an actual todo_id
-  sleep(1);
+  // Test GET list of todos
+  let listTodosRes = http.get(`${baseUrl}/`);
+  check(listTodosRes, { 'status was 200 for list todos': (r) => r.status == 200 });
 
-  // Test the done_todo_handler(todo_id) endpoint
-  http.get('http://web:8000/done/1'); // Replace '1' with an actual todo_id
-  sleep(1);
+  // Test POST new todo
+  let newTodoData = JSON.stringify({ title: 'New Todo', description: 'Test description' });
+  let createRes = http.post(`${baseUrl}/new_todo`, newTodoData, { headers: { 'Content-Type': 'application/json' } });
+  check(createRes, { 'status was 201 for new todo': (r) => r.status == 201 });
 
-  // Test the create_todo_handler(todo) endpoint
-  const todo = {
-    // Replace with actual JSON data for a new todo
-  };
-  http.post('http://web:8000/new_todo', JSON.stringify(todo), {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
-  sleep(1);
+  // Assume we have a todo with ID 1 to read, mark as done, and delete.
+  let todoId = 1;
 
-  // Test the delete_todo_handler(todo_id) endpoint
-  http.get('http://web:8000/delete/1'); // Replace '1' with an actual todo_id
-  sleep(1);
+  // Test GET single todo
+  let listSingleTodoRes = http.get(`${baseUrl}/todo/${todoId}`);
+  check(listSingleTodoRes, { 'status was 200 for single todo': (r) => r.status == 200 });
+
+  // Test GET mark todo as done
+  let markDoneRes = http.get(`${baseUrl}/done/${todoId}`);
+  check(markDoneRes, { 'status was 200 for mark done': (r) => r.status == 200 });
+
+  // Test GET delete todo
+  let deleteRes = http.get(`${baseUrl}/delete/${todoId}`);
+  check(deleteRes, { 'status was 200 for delete': (r) => r.status == 200 });
+
+  sleep(1);  // Sleep for 1 second (simulate think time)
 }
