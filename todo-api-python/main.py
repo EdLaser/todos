@@ -2,8 +2,8 @@ from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy.orm import Session
 from fastapi.encoders import jsonable_encoder
 
-from . import crud, models, schemas
-from .database import SessionLocal, engine
+from sql_app import crud, models, schemas
+from sql_app.database import SessionLocal, engine
 
 models.Base.metadata.create_all(bind=engine)
 
