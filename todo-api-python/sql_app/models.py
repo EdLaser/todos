@@ -9,5 +9,5 @@ class ToDo(Base):
 
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     title = Column(String)
-    desciption = Column(String)
+    description = Column(String)
     is_done = Column(Boolean, default=False)

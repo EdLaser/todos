@@ -1,6 +1,8 @@
 from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy.orm import Session
 from fastapi.encoders import jsonable_encoder
+from fastapi.responses import JSONResponse
+from fastapi import status
 
 from sql_app import crud, models, schemas
 from sql_app.database import SessionLocal, engine
@@ -22,7 +24,7 @@ def get_db():
 
 @app.post("/api/new_todo", response_model=schemas.ToDo)
 def create_user(todo: schemas.ToDoCreate, db: Session = Depends(get_db)):
-    return jsonable_encoder(crud.create_todo(db=db, todo=todo))
+    return JSONResponse(status_code=status.HTTP_201_CREATED, content=jsonable_encoder(crud.create_todo(db=db, todo=todo)))
 
 
 @app.get("/api/todos", response_model=list[schemas.ToDo])

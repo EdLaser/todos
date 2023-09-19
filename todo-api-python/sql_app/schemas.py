@@ -3,13 +3,12 @@ from pydantic import BaseModel
 
 class ToDoBase(BaseModel):
     title: str
-    description: str | None = None
+    description: str
 
 
 class ToDoCreate(ToDoBase):
     title: str
     description: str
-    is_done: bool
 
 
 class ToDo(ToDoBase):
@@ -19,4 +18,4 @@ class ToDo(ToDoBase):
     is_done: bool
 
     class Config:
-        orm_mode = True
+        from_attributes = True
