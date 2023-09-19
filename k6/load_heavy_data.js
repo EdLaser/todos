@@ -406,17 +406,16 @@ const newTodos = [
 ];
 
 export let options = {
-    stages: [
-        { duration: '10s', target: 100 }, // ramp up to 100 users
-        { duration: '10s', target: 100 }, // stay at 100 users
-        { duration: '10s', target: 0 },   // scale down. (optional)
-    ],
+    vus: 1,
+    duration: '30s'
 };
 
 export default function () {
     let baseUrl = "172.18.0.3:8000/api"; // Replace with your actual base URL
 
     // Test POST new todo using parameterized data
-    let createRes = http.post("http://172.18.0.3:8000/api/new_todo", JSON.stringify(newTodos[0]), { headers: { 'Content-Type': 'application/json' } });
-    check(createRes, { 'status was 201 for new todo': (r) => r.status == 201 });
+    for (let elem of newTodos) {
+        let createRes = http.post("http://localhost:8000/api/new_todo", JSON.stringify(elem), { headers: { 'Content-Type': 'application/json' } });
+        check(createRes, { 'status was 201 for new todo': (r) => r.status == 201 });
+    }
 }
