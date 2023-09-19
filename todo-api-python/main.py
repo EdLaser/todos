@@ -31,7 +31,7 @@ def get_todos(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     return jsonable_encoder(todos)
 
 
-@app.get("/api/todo/{todo_id}", response_model=schemas.User)
+@app.get("/api/todo/{todo_id}", response_model=schemas.ToDo)
 def get_todo(todo_id: int, db: Session = Depends(get_db)):
     db_todo = crud.get_todo(db, todo_id=todo_id)
     if db_todo is None:
