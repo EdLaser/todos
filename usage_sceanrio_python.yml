@@ -32,15 +32,17 @@ services:
   test-container:
     image: locustio/locust
     setup-commands:
-
+      - locust --config=/tmp/locust/locust.conf
     networks:
       - todo-network
+    volumes:
+      - /locust/:/tmp/locust
 
 flow:
-  - name: Check Website
+  - name: Do API-Test
     container: test-container
     commands:
       - type: console
-        command: k6 run /tmp/repo/k6/test.js
-        note: Starting k6 flow
+        command: locust -f /tmp/locust/locustfile.py
+        note: Starting locust test
         read-notes-stdout: true
