@@ -19,9 +19,9 @@ services:
       - 5432:5432
 
   web:
-    restart: on-failure
+    restart: always
     depends_on:
-      - db-container
+      - db
     build: ./todo-api-python
     environment:
       DATABASE_URL: postgres://mysecretuser:mysecretpassword@db:5432/todos
