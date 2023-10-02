@@ -108,6 +108,7 @@ BASE_URL = "http://host.docker.internal:8000/api"
 
 
 class TodoAPIUser(FastHttpUser):
+    wait_time = between(2, 4)
     @task
     def new_todos_load(self):
         with self.rest(
