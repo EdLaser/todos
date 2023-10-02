@@ -2,7 +2,7 @@ FROM rust
 
 WORKDIR /usr/src/api
 
-COPY ./todo-api .
+COPY . .
 
 RUN diesel setup
 
