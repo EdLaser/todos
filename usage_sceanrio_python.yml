@@ -36,7 +36,7 @@ services:
     networks:
       - todo-network
     volumes:
-      - /locust/:/tmp/locust
+      - ./locust/:/tmp/locust
 
 flow:
   - name: Do API-Test
