@@ -104,7 +104,7 @@ TODO_LSIT = [
     {"title": "Go to the gym - Day 100", "description": "Workout for 100 minutes"},
 ]
 
-BASE_URL = "http://host.docker.internal:8000/api"
+BASE_URL = "http://web:8000/api"
 
 
 class TodoAPIUser(FastHttpUser):
