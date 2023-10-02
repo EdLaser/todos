@@ -5,8 +5,9 @@ architecture: macos
 description: Test if we can test the API and measure it
 networks:
   todo-network:
+
 services:
-  db-container:
+  db:
     image: postgres:15-alpine
     environment:
       POSTGRES_USER: mysecretuser
@@ -20,7 +21,7 @@ services:
   web:
     restart: on-failure
     depends_on:
-      - db
+      - db-container
     build: ./todo-api-python
     environment:
       DATABASE_URL: postgres://mysecretuser:mysecretpassword@db:5432/todos
@@ -31,18 +32,17 @@ services:
 
   test-container:
     image: locustio/locust
-    setup-commands:
-      - locust --config=/tmp/locust/locust.conf
     networks:
       - todo-network
     volumes:
-      - ./locust/:/tmp/locust
+      - ./locust/locust.conf:/home/locust/locust.conf:ro
+      - ./locust/locustfile.py:/home/locust/locustfile.py:ro
 
 flow:
   - name: Do API-Test
     container: test-container
     commands:
       - type: console
-        command: locust -f /tmp/locust/locustfile.py
+        command: locust -f /home/locust/locustfile.py
         note: Starting locust test
         read-notes-stdout: true
