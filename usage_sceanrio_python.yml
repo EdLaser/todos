@@ -1,0 +1,46 @@
+name: Stress Test API
+author: Ruben
+version: 1
+architecture: linux
+description: Test if we can test the API and measure it
+networks:
+  todo-network:
+services:
+  db-container:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: mysecretuser
+      POSTGRES_DB: todos
+      POSTGRES_PASSWORD: mysecretpassword
+    networks:
+      - todo-network
+    ports:
+      - 5432:5432
+
+  web:
+    restart: on-failure
+    depends_on:
+      - db
+    build: .
+    environment:
+      DATABASE_URL: postgres://mysecretuser:mysecretpassword@db:5432/todos
+    ports:
+      - 8000:8000
+    networks:
+      - todo-network
+
+  test-container:
+    image: locustio/locust
+    setup-commands:
+
+    networks:
+      - todo-network
+
+flow:
+  - name: Check Website
+    container: test-container
+    commands:
+      - type: console
+        command: k6 run /tmp/repo/k6/test.js
+        note: Starting k6 flow
+        read-notes-stdout: true
