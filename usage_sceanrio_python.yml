@@ -1,7 +1,7 @@
 name: Stress Test API
 author: Ruben
 version: 1
-architecture: linux
+architecture: macos
 description: Test if we can test the API and measure it
 networks:
   todo-network:
@@ -21,7 +21,7 @@ services:
     restart: on-failure
     depends_on:
       - db
-    build: .
+    build: ./todo-api-python
     environment:
       DATABASE_URL: postgres://mysecretuser:mysecretpassword@db:5432/todos
     ports:
