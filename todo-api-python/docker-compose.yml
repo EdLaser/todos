@@ -2,7 +2,7 @@ networks:
   todo-network:
 
 services:
-  db-container:
+  db:
     image: postgres:15-alpine
     environment:
       POSTGRES_USER: mysecretuser
@@ -16,10 +16,10 @@ services:
   web:
     restart: on-failure
     depends_on:
-      - db-container
+      - db
     build: .
     environment:
-      DATABASE_URL: postgres://mysecretuser:mysecretpassword@db-container:5432/todos
+      DATABASE_URL: postgres://mysecretuser:mysecretpassword@db:5432/todos
     ports:
       - 8000:8000
     networks:
