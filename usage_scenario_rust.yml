@@ -30,27 +30,18 @@ services:
       - example-network
 
   test-container:
-    image: ubuntu
-    
-    setup-commands:
-      - apt-get update
-      - apt-get upgrade -y
-      - apt-get install wget -y
-      - apt-get install tar -y
-      - wget https://github.com/grafana/k6/releases/download/v0.45.1/k6-v0.45.1-linux-amd64.deb
-      - apt install ./k6-v0.45.1-linux-amd64.deb
-      # - cd k6-v0.45.1-linux-amd64
-      # - export PATH="$HOME/$(pwd):$PATH"
-      # - k6 run /tmp/repo/k6/test.js
-
+    image: locustio/locust
     networks:
-      - example-network
+      - todo-network
+    volumes:
+      - ./locust/locust.conf:/home/locust/locust.conf:ro
+      - ./locust/locustfile.py:/home/locust/locustfile.py:ro
 
 flow:
-  - name: Check Website
+  - name: Do API-Test
     container: test-container
     commands:
-    - type: console
-      command: k6 run /tmp/repo/k6/test.js
-      note: Starting k6 flow
-      read-notes-stdout: true
+      - type: console
+        command: locust -f /home/locust/locustfile.py
+        note: Starting locust test
+        read-notes-stdout: true
