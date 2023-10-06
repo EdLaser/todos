@@ -47,7 +47,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/NotFoundResponse"
   /done/{todo_id}:
-    get:
+    put:
       summary: Mark Todo as Done
       tags: ["todo"]
       description: Mark Todo as Done
@@ -92,7 +92,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/CreatedResponse"
   /delete/{todo_id}:
-    get:
+    delete:
       summary: Delete Todo by ID
       tags: ["todo"]
       description: Delete Todo by ID
