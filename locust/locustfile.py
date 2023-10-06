@@ -108,11 +108,42 @@ BASE_URL = "http://web:8000/api"
 
 
 class TodoAPIUser(FastHttpUser):
-    wait_time = between(2, 4)
-    @task
-    def new_todos_load(self):
+    wait_time = between(3, 5)
+
+    @task(5)
+    def new_todo(self):
         with self.rest(
             "POST", f"{BASE_URL}/new_todo", json=random.choice(TODO_LSIT)
+        ) as resp:
+            if resp.js is None:
+                pass
+
+    @task(3)
+    def list_todos(self):
+        with self.rest("GET", f"{BASE_URL}/todos") as resp:
+            if resp.js is None:
+                pass
+    
+    @task(2)
+    def get_single_todo(self):
+        with self.rest(
+            "GET", f"{BASE_URL}/todo/{random.randint(1, 100)}"
+        ) as resp:
+            if resp.js is None:
+                pass
+
+    @task(2)
+    def mark_as_done(self):
+        with self.rest(
+            "PUT", f"{BASE_URL}/{random.randint(1, 100)}"
+        ) as resp:
+            if resp.js is None:
+                pass
+    
+    @task(2)
+    def delete_todo(self):
+        with self.rest(
+            "DELETE", f"{BASE_URL}/delete/{random.randint(1, 100)}"
         ) as resp:
             if resp.js is None:
                 pass
