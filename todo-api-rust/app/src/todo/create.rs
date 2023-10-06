@@ -5,10 +5,8 @@ use diesel::prelude::*;
 use rocket::response::status::Created;
 use rocket::serde::json::Json;
 
-pub fn create_todo(todo: Json<NewTodo>) -> Created<String> {
+pub fn create_todo(todo: NewTodo) -> Created<String> {
     use domain::schema::todos;
-
-    let todo = todo.into_inner();
 
     match diesel::insert_into(todos::table).values(&todo).get_result::<Todo>(&mut establish_connection()) {
         Ok(todo) => {
