@@ -62,8 +62,8 @@ pub fn delete_todo_handler(todo_id: i32) -> Result<String, NotFound<String>> {
 
 #[post("/new_todos", format = "application/json", data = "<todos>")]
 pub fn new_todos_handler(todos: Json<Vec<NewTodo>>) -> Created<String> {
-    for todo in todos.iter() {
-        create::create_todo(*todo);
+    for todo in todos.into_inner() {
+        create::create_todo(todo);
     }
     Created::new("/new_todos".to_string())
 }
