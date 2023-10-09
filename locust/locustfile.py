@@ -117,12 +117,16 @@ class TodoAPIUser(FastHttpUser):
         ) as resp:
             if resp.js is None:
                 pass
+            elif resp.status_code != 201:
+                resp.failure("Worng Status code!")
 
     @task(3)
     def list_todos(self):
         with self.rest("GET", f"{BASE_URL}/todos") as resp:
             if resp.js is None:
                 pass
+            elif resp.status_code != 200:
+                resp.failure("Worng Status code!")
     
     @task(2)
     def get_single_todo(self):
@@ -131,6 +135,8 @@ class TodoAPIUser(FastHttpUser):
         ) as resp:
             if resp.js is None:
                 pass
+            elif resp.status_code != 200:
+                resp.failure("Worng Status code!")
 
     @task(2)
     def mark_as_done(self):
@@ -139,6 +145,8 @@ class TodoAPIUser(FastHttpUser):
         ) as resp:
             if resp.js is None:
                 pass
+            elif resp.status_code != 200:
+                resp.failure("Worng Status code!")
     
     @task(2)
     def delete_todo(self):
@@ -147,3 +155,5 @@ class TodoAPIUser(FastHttpUser):
         ) as resp:
             if resp.js is None:
                 pass
+            elif resp.status_code != 200:
+                resp.failure("Worng Status code!")
