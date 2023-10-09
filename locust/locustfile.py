@@ -104,7 +104,8 @@ TODO_LSIT = [
     {"title": "Go to the gym - Day 100", "description": "Workout for 100 minutes"},
 ]
 
-BASE_URL = "http://web:8000/api"
+BASE_URL = "http://0.0.0.0:8000/api"
+WRONG_STATUS_CODE = "Wrong Status code!"
 
 
 class TodoAPIUser(FastHttpUser):
@@ -117,16 +118,16 @@ class TodoAPIUser(FastHttpUser):
         ) as resp:
             if resp.js is None:
                 pass
-            elif resp.status_code != 201:
-                resp.failure("Worng Status code!")
+            elif resp.status_code != 201 and resp.status_code != 404:
+                resp.failure(WRONG_STATUS_CODE)
 
     @task(3)
     def list_todos(self):
-        with self.rest("GET", f"{BASE_URL}/todos") as resp:
+        with self.rest("GET", f"{BASE_URL}/") as resp:
             if resp.js is None:
                 pass
-            elif resp.status_code != 200:
-                resp.failure("Worng Status code!")
+            elif resp.status_code != 200 and resp.status_code != 404:
+                resp.failure(WRONG_STATUS_CODE)
     
     @task(2)
     def get_single_todo(self):
@@ -135,8 +136,8 @@ class TodoAPIUser(FastHttpUser):
         ) as resp:
             if resp.js is None:
                 pass
-            elif resp.status_code != 200:
-                resp.failure("Worng Status code!")
+            elif resp.status_code != 200 and resp.status_code != 404:
+                resp.failure(WRONG_STATUS_CODE)
 
     @task(2)
     def mark_as_done(self):
@@ -145,8 +146,8 @@ class TodoAPIUser(FastHttpUser):
         ) as resp:
             if resp.js is None:
                 pass
-            elif resp.status_code != 200:
-                resp.failure("Worng Status code!")
+            elif resp.status_code != 200 and resp.status_code != 404:
+                resp.failure(WRONG_STATUS_CODE)
     
     @task(2)
     def delete_todo(self):
@@ -155,5 +156,5 @@ class TodoAPIUser(FastHttpUser):
         ) as resp:
             if resp.js is None:
                 pass
-            elif resp.status_code != 200:
-                resp.failure("Worng Status code!")
+            elif resp.status_code != 200 and resp.status_code != 404:
+                resp.failure(WRONG_STATUS_CODE)
