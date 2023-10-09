@@ -5,14 +5,14 @@ use rocket::{delete, get, post, put, response::status::Created, response::status
 use shared::response_models::{Response, ResponseBody};
 
 #[get("/")]
-pub fn list_todos_handler() -> String {
+pub fn list_todos_handler() -> Result<String, NotFound<String>> {
     // 👇 New function body!
     let todos: Vec<Todo> = read::list_todos();
     let response = Response {
         body: ResponseBody::Todos(todos),
     };
 
-    serde_json::to_string(&response).unwrap()
+    Ok(serde_json::to_string(&response).unwrap())
 }
 
 #[get("/todo/<todo_id>")]
