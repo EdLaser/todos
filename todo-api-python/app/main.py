@@ -27,7 +27,7 @@ def create_user(todo: schemas.ToDoCreate, db: Session = Depends(get_db)):
     return JSONResponse(status_code=status.HTTP_201_CREATED, content=jsonable_encoder(crud.create_todo(db=db, todo=todo)))
 
 
-@app.get("/api/todos", response_model=list[schemas.ToDo])
+@app.get("/api", response_model=list[schemas.ToDo])
 def get_todos(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     todos = crud.get_todos(db, skip=skip, limit=limit)
     return JSONResponse(status_code=status.HTTP_200_OK, content=jsonable_encoder(todos))
