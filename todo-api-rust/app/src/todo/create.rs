@@ -3,7 +3,6 @@ use shared::response_models::{Response, ResponseBody};
 use infrastructure::establish_connection;
 use diesel::prelude::*;
 use rocket::response::status::Created;
-use rocket::serde::json::Json;
 
 pub fn create_todo(todo: NewTodo) -> Created<String> {
     use domain::schema::todos;
