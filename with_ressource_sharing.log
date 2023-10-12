@@ -1,0 +1,88 @@
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 0_o >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+Error:  Base exception occured in runner.py:  Docker build failed
+Stderr: INFO[0000] Retrieving image manifest python:3.11        
+INFO[0000] Retrieving image python:3.11 from registry index.docker.io 
+INFO[0001] Built cross stage deps: map[]                
+INFO[0001] Retrieving image manifest python:3.11        
+INFO[0001] Returning cached image manifest              
+INFO[0001] Executing 0 build triggers                   
+INFO[0001] Building stage 'python:3.11' [idx: '0', base-idx: '-1'] 
+INFO[0001] Unpacking rootfs as cmd COPY ./requirements.txt /code/requirements.txt requires it. 
+INFO[0013] WORKDIR /code                                
+INFO[0013] Cmd: workdir                                 
+INFO[0013] Changed working directory to /code           
+INFO[0013] Creating directory /code with uid -1 and gid -1 
+INFO[0013] Taking snapshot of files...                  
+INFO[0013] COPY ./requirements.txt /code/requirements.txt 
+INFO[0013] Taking snapshot of files...                  
+INFO[0013] RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt 
+INFO[0013] Initializing snapshotter ...                 
+INFO[0013] Taking snapshot of full filesystem...        
+INFO[0016] Cmd: /bin/sh                                 
+INFO[0016] Args: [-c pip install --no-cache-dir --upgrade -r /code/requirements.txt] 
+INFO[0016] Running: [/bin/sh -c pip install --no-cache-dir --upgrade -r /code/requirements.txt] 
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+INFO[0021] Taking snapshot of full filesystem...        
+INFO[0022] COPY ./app /code/app                         
+INFO[0022] Taking snapshot of files...                  
+INFO[0022] ENV PYTHONDONTWRITEBYTECODE 1                
+INFO[0022] ENV PYTHONUNBUFFERED 1                       
+INFO[0022] CMD wait-for-it -s db:5432 -t 5 && uvicorn app.main:app --host 0.0.0.0 --port 8000 
+
+Stdout: Collecting fastapi<0.69.0,>=0.68.0 (from -r /code/requirements.txt (line 1))
+  Downloading fastapi-0.68.2-py3-none-any.whl (52 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 52.4/52.4 kB 1.3 MB/s eta 0:00:00
+Collecting pydantic<2.0.0,>=1.8.0 (from -r /code/requirements.txt (line 2))
+  Obtaining dependency information for pydantic<2.0.0,>=1.8.0 from https://files.pythonhosted.org/packages/d2/16/2edfe3e52de9d46fee81d9b9ace90fd7a49a86e7a36d7fc280183f77515a/pydantic-1.10.13-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata
+  Downloading pydantic-1.10.13-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (149 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 149.6/149.6 kB 5.1 MB/s eta 0:00:00
+Collecting uvicorn<0.16.0,>=0.15.0 (from -r /code/requirements.txt (line 3))
+  Downloading uvicorn-0.15.0-py3-none-any.whl (54 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 54.4/54.4 kB 28.2 MB/s eta 0:00:00
+Collecting sqlalchemy<2.0.0,>=1.4.0 (from -r /code/requirements.txt (line 4))
+  Obtaining dependency information for sqlalchemy<2.0.0,>=1.4.0 from https://files.pythonhosted.org/packages/10/68/09f08f931a8f4277a25feab191bbdaa443a6275184b3842aaae4bb486392/SQLAlchemy-1.4.49-cp311-cp311-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata
+  Downloading SQLAlchemy-1.4.49-cp311-cp311-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (10 kB)
+Collecting psycopg2-binary (from -r /code/requirements.txt (line 5))
+  Obtaining dependency information for psycopg2-binary from https://files.pythonhosted.org/packages/ce/85/62825cabc6aad53104b7b6d12eb2ad74737d268630032d07b74d4444cb72/psycopg2_binary-2.9.9-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata
+  Downloading psycopg2_binary-2.9.9-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.4 kB)
+Collecting wait-for-it (from -r /code/requirements.txt (line 6))
+  Downloading wait_for_it-2.2.2-py3-none-any.whl (8.1 kB)
+Collecting starlette==0.14.2 (from fastapi<0.69.0,>=0.68.0->-r /code/requirements.txt (line 1))
+  Downloading starlette-0.14.2-py3-none-any.whl (60 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 60.6/60.6 kB 29.8 MB/s eta 0:00:00
+Collecting typing-extensions>=4.2.0 (from pydantic<2.0.0,>=1.8.0->-r /code/requirements.txt (line 2))
+  Obtaining dependency information for typing-extensions>=4.2.0 from https://files.pythonhosted.org/packages/24/21/7d397a4b7934ff4028987914ac1044d3b7d52712f30e2ac7a2ae5bc86dd0/typing_extensions-4.8.0-py3-none-any.whl.metadata
+  Downloading typing_extensions-4.8.0-py3-none-any.whl.metadata (3.0 kB)
+Collecting asgiref>=3.4.0 (from uvicorn<0.16.0,>=0.15.0->-r /code/requirements.txt (line 3))
+  Obtaining dependency information for asgiref>=3.4.0 from https://files.pythonhosted.org/packages/9b/80/b9051a4a07ad231558fcd8ffc89232711b4e618c15cb7a392a17384bbeef/asgiref-3.7.2-py3-none-any.whl.metadata
+  Downloading asgiref-3.7.2-py3-none-any.whl.metadata (9.2 kB)
+Collecting click>=7.0 (from uvicorn<0.16.0,>=0.15.0->-r /code/requirements.txt (line 3))
+  Obtaining dependency information for click>=7.0 from https://files.pythonhosted.org/packages/00/2e/d53fa4befbf2cfa713304affc7ca780ce4fc1fd8710527771b58311a3229/click-8.1.7-py3-none-any.whl.metadata
+  Downloading click-8.1.7-py3-none-any.whl.metadata (3.0 kB)
+Collecting h11>=0.8 (from uvicorn<0.16.0,>=0.15.0->-r /code/requirements.txt (line 3))
+  Downloading h11-0.14.0-py3-none-any.whl (58 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 58.3/58.3 kB 157.5 MB/s eta 0:00:00
+Collecting greenlet!=0.4.17 (from sqlalchemy<2.0.0,>=1.4.0->-r /code/requirements.txt (line 4))
+  Obtaining dependency information for greenlet!=0.4.17 from https://files.pythonhosted.org/packages/6c/df/1e3e52e35e56b912c7bcd64ba2010d6972c43dff96794074b32a62345970/greenlet-3.0.0-cp311-cp311-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl.metadata
+  Downloading greenlet-3.0.0-cp311-cp311-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl.metadata (3.8 kB)
+Downloading pydantic-1.10.13-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (3.1 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.1/3.1 MB 42.3 MB/s eta 0:00:00
+Downloading SQLAlchemy-1.4.49-cp311-cp311-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl (1.6 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.6/1.6 MB 106.4 MB/s eta 0:00:00
+Downloading psycopg2_binary-2.9.9-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (3.0 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.0/3.0 MB 83.3 MB/s eta 0:00:00
+Downloading asgiref-3.7.2-py3-none-any.whl (24 kB)
+Downloading click-8.1.7-py3-none-any.whl (97 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 97.9/97.9 kB 108.3 MB/s eta 0:00:00
+Downloading greenlet-3.0.0-cp311-cp311-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl (616 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 616.4/616.4 kB 131.5 MB/s eta 0:00:00
+Downloading typing_extensions-4.8.0-py3-none-any.whl (31 kB)
+Installing collected packages: typing-extensions, starlette, psycopg2-binary, h11, greenlet, click, asgiref, wait-for-it, uvicorn, sqlalchemy, pydantic, fastapi
+Successfully installed asgiref-3.7.2 click-8.1.7 fastapi-0.68.2 greenlet-3.0.0 h11-0.14.0 psycopg2-binary-2.9.9 pydantic-1.10.13 sqlalchemy-1.4.49 starlette-0.14.2 typing-extensions-4.8.0 uvicorn-0.15.0 wait-for-it-2.2.2
+error pushing image: writing tarball to file failed: open /output/web_4956927_gmt_run_tmp.tar: no such file or directory
+ None
+
+
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 0_o >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
