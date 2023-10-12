@@ -109,10 +109,18 @@ WRONG_STATUS_CODE = "Wrong Status code!"
 
 created_todos = []
 
+
+def check_created_todos(tods):
+    if len(tods) > 0:
+        return random.choice(tods)
+    else:
+        return 0
+
+
 class TodoAPIUser(FastHttpUser):
     wait_time = between(3, 5)
 
-    @task(5)
+    @task(7)
     def new_todo(self):
         with self.rest(
             "POST", f"{BASE_URL}/new_todo", json=random.choice(TODO_LSIT)
@@ -122,7 +130,6 @@ class TodoAPIUser(FastHttpUser):
             elif resp.status_code != 201 and resp.status_code != 404:
                 resp.failure(WRONG_STATUS_CODE)
 
-
     @task(3)
     def list_todos(self):
         with self.rest("GET", f"{BASE_URL}/") as resp:
@@ -130,34 +137,60 @@ class TodoAPIUser(FastHttpUser):
                 pass
             elif resp.status_code != 200 and resp.status_code != 404:
                 resp.failure(WRONG_STATUS_CODE)
-    
+
     @task(2)
     def get_single_todo(self):
-        with self.rest(
-            "GET", f"{BASE_URL}/todo/{random.choice(created_todos)}"
-        ) as resp:
-            if resp.js is None:
-                pass
-            elif resp.status_code != 200 and resp.status_code != 404:
-                resp.failure(WRONG_STATUS_CODE)
+        if check_created_todos(created_todos) == 0:
+            with self.rest(
+                "GET",
+                f"{BASE_URL}/todo/{random.choice(created_todos) if len(created_todos) > 0 else 0}",
+            ) as resp:
+                if resp.js is None:
+                    pass
+                elif resp.status_code != 200 and resp.status_code != 404:
+                    resp.failure(WRONG_STATUS_CODE)
+        else:
+            with self.rest(
+                "POST", f"{BASE_URL}/new_todo", json=random.choice(TODO_LSIT)
+            ) as resp:
+                if resp.js is not None:
+                    created_todos.append(resp.json()["id"])
+                elif resp.status_code != 201 and resp.status_code != 404:
+                    resp.failure(WRONG_STATUS_CODE)
 
     @task(2)
     def mark_as_done(self):
-        with self.rest(
-            "PUT", f"{BASE_URL}/{random.choice(created_todos)}"
-        ) as resp:
-            if resp.js is None:
-                pass
-            elif resp.status_code != 200 and resp.status_code != 404:
-                resp.failure(WRONG_STATUS_CODE)
-    
-    @task(2)
+        if check_created_todos(created_todos) == 0:
+            with self.rest(
+                "PUT",
+                f"{BASE_URL}/{random.choice(created_todos) if len(created_todos) > 0 else 0}",
+            ) as resp:
+                if resp.js is None:
+                    pass
+                elif resp.status_code != 200 and resp.status_code != 404:
+                    resp.failure(WRONG_STATUS_CODE)
+        else:
+            with self.rest(
+                "POST", f"{BASE_URL}/new_todo", json=random.choice(TODO_LSIT)
+            ) as resp:
+                if resp.js is not None:
+                    created_todos.append(resp.json()["id"])
+                elif resp.status_code != 201 and resp.status_code != 404:
+                    resp.failure(WRONG_STATUS_CODE)
+
+    @task(1)
     def delete_todo(self):
-        random_id = random.choice(created_todos)
-        with self.rest(
-            "DELETE", f"{BASE_URL}/delete/{random_id}"
-        ) as resp:
-            if resp.js is not None:
-                created_todos.remove(random_id)
-            elif resp.status_code != 200 and resp.status_code != 404:
-                resp.failure(WRONG_STATUS_CODE)
+        if check_created_todos(created_todos) == 0:
+            with self.rest("DELETE", f"{BASE_URL}/delete/{random_id}") as resp:
+                if resp.js is not None:
+                    created_todos.remove(random_id)
+                elif resp.status_code != 200 and resp.status_code != 404:
+                    resp.failure(WRONG_STATUS_CODE)
+        else:
+            with self.rest(
+                "POST", f"{BASE_URL}/new_todo", json=random.choice(TODO_LSIT)
+            ) as resp:
+                if resp.js is not None:
+                    created_todos.append(resp.json()["id"])
+                elif resp.status_code != 201 and resp.status_code != 404:
+                    resp.failure(WRONG_STATUS_CODE)
