@@ -104,7 +104,7 @@ TODO_LSIT = [
     {"title": "Go to the gym - Day 100", "description": "Workout for 100 minutes"},
 ]
 
-BASE_URL = "http://0.0.0.0:8000/api"
+BASE_URL = "http://web:8000/api"
 WRONG_STATUS_CODE = "Wrong Status code!"
 
 
