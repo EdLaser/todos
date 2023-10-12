@@ -107,6 +107,7 @@ TODO_LSIT = [
 BASE_URL = "http://web:8000/api"
 WRONG_STATUS_CODE = "Wrong Status code!"
 
+created_todos = []
 
 class TodoAPIUser(FastHttpUser):
     wait_time = between(3, 5)
@@ -116,10 +117,11 @@ class TodoAPIUser(FastHttpUser):
         with self.rest(
             "POST", f"{BASE_URL}/new_todo", json=random.choice(TODO_LSIT)
         ) as resp:
-            if resp.js is None:
-                pass
+            if resp.js is not None:
+                created_todos.append(resp.json()["id"])
             elif resp.status_code != 201 and resp.status_code != 404:
                 resp.failure(WRONG_STATUS_CODE)
+
 
     @task(3)
     def list_todos(self):
@@ -132,7 +134,7 @@ class TodoAPIUser(FastHttpUser):
     @task(2)
     def get_single_todo(self):
         with self.rest(
-            "GET", f"{BASE_URL}/todo/{random.randint(1, 100)}"
+            "GET", f"{BASE_URL}/todo/{random.choice(created_todos)}"
         ) as resp:
             if resp.js is None:
                 pass
@@ -142,7 +144,7 @@ class TodoAPIUser(FastHttpUser):
     @task(2)
     def mark_as_done(self):
         with self.rest(
-            "PUT", f"{BASE_URL}/{random.randint(1, 100)}"
+            "PUT", f"{BASE_URL}/{random.choice(created_todos)}"
         ) as resp:
             if resp.js is None:
                 pass
@@ -151,10 +153,11 @@ class TodoAPIUser(FastHttpUser):
     
     @task(2)
     def delete_todo(self):
+        random_id = random.choice(created_todos)
         with self.rest(
-            "DELETE", f"{BASE_URL}/delete/{random.randint(1, 100)}"
+            "DELETE", f"{BASE_URL}/delete/{random_id}"
         ) as resp:
-            if resp.js is None:
-                pass
+            if resp.js is not None:
+                created_todos.remove(random_id)
             elif resp.status_code != 200 and resp.status_code != 404:
                 resp.failure(WRONG_STATUS_CODE)
