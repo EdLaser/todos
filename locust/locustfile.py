@@ -107,14 +107,14 @@ TODO_LSIT = [
 BASE_URL = "http://web:8000/api"
 WRONG_STATUS_CODE = "Wrong Status code!"
 
-created_todos = []
+created_todos: int = []
 
 
-def check_created_todos(tods):
-    if len(tods) > 0:
-        return random.choice(tods)
+def check_created_todos(todos):
+    if len(todos) > 0:
+        return random.choice(todos)
     else:
-        return 0
+        return False
 
 
 class TodoAPIUser(FastHttpUser):
@@ -140,10 +140,11 @@ class TodoAPIUser(FastHttpUser):
 
     @task(2)
     def get_single_todo(self):
-        if check_created_todos(created_todos) == 0:
+        random_todo_id = check_created_todos(created_todos)
+        if random_todo_id:
             with self.rest(
                 "GET",
-                f"{BASE_URL}/todo/{random.choice(created_todos) if len(created_todos) > 0 else 0}",
+                f"{BASE_URL}/todo/{random_todo_id}",
             ) as resp:
                 if resp.js is None:
                     pass
@@ -160,10 +161,11 @@ class TodoAPIUser(FastHttpUser):
 
     @task(2)
     def mark_as_done(self):
-        if check_created_todos(created_todos) == 0:
+        random_todo_id = check_created_todos(created_todos)
+        if random_todo_id:
             with self.rest(
                 "PUT",
-                f"{BASE_URL}/{random.choice(created_todos) if len(created_todos) > 0 else 0}",
+                f"{BASE_URL}/{random_todo_id}",
             ) as resp:
                 if resp.js is None:
                     pass
@@ -180,11 +182,11 @@ class TodoAPIUser(FastHttpUser):
 
     @task(1)
     def delete_todo(self):
-        if check_created_todos(created_todos) == 0:
-            random_id = random.choice(created_todos)
-            with self.rest("DELETE", f"{BASE_URL}/delete/{random_id}") as resp:
+        random_todo_id = check_created_todos(created_todos)
+        if random_todo_id:
+            with self.rest("DELETE", f"{BASE_URL}/delete/{random_todo_id}") as resp:
                 if resp.js is not None:
-                    created_todos.remove(random_id)
+                    created_todos.remove(random_todo_id)
                 elif resp.status_code != 200 and resp.status_code != 404:
                     resp.failure(WRONG_STATUS_CODE)
         else:
