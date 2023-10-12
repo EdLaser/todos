@@ -181,6 +181,7 @@ class TodoAPIUser(FastHttpUser):
     @task(1)
     def delete_todo(self):
         if check_created_todos(created_todos) == 0:
+            random_id = random.choice(created_todos)
             with self.rest("DELETE", f"{BASE_URL}/delete/{random_id}") as resp:
                 if resp.js is not None:
                     created_todos.remove(random_id)
