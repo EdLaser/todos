@@ -30,12 +30,11 @@ services:
       - example-network
 
   test-container:
-    image: locustio/locust
+    build:
+      context: ./locust
+      dockerfile: Dockerfile_locust
     networks:
       - todo-network
-    volumes:
-      - ./locust/locust.conf:/home/locust/locust.conf:ro
-      - ./locust/locustfile.py:/home/locust/locustfile.py:ro
 
 flow:
   - name: Do API-Test
