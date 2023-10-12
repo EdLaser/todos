@@ -1,0 +1,34 @@
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 0_o >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+Traceback (most recent call last):
+  File "/home/r2/green-metrics-tool/runner.py", line 1409, in <module>
+    successful_run_id = runner.run()  # Start main code
+  File "/home/r2/green-metrics-tool/runner.py", line 1286, in run
+    raise exc
+  File "/home/r2/green-metrics-tool/runner.py", line 1238, in run
+    self.build_docker_images()
+  File "/home/r2/green-metrics-tool/runner.py", line 592, in build_docker_images
+    raise OSError(f"Docker build failed\nStderr: {ps.stderr}\nStdout: {ps.stdout}")
+OSError: Docker build failed
+Stderr: docker: Error response from daemon: Mounts denied: 
+The path /tmp/green-metrics-tool/docker_images is not shared from the host and is not known to Docker.
+You can configure shared paths from Docker -> Preferences... -> Resources -> File Sharing.
+See https://docs.docker.com/ for more info.
+time="2023-10-12T16:44:11+02:00" level=error msg="error waiting for container: "
+
+Stdout: 
+
+
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 0_o >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+Error:  Base exception occured in runner.py:  Docker build failed
+Stderr: docker: Error response from daemon: Mounts denied: 
+The path /tmp/green-metrics-tool/docker_images is not shared from the host and is not known to Docker.
+You can configure shared paths from Docker -> Preferences... -> Resources -> File Sharing.
+See https://docs.docker.com/ for more info.
+time="2023-10-12T16:44:11+02:00" level=error msg="error waiting for container: "
+
+Stdout:  None
+
