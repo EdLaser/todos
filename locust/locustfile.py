@@ -107,7 +107,7 @@ TODO_LSIT = [
 BASE_URL = "http://web:8000/api"
 WRONG_STATUS_CODE = "Wrong Status code!"
 
-created_todos: int = []
+created_todos: list[int] = []
 
 
 def check_created_todos(todos):
