@@ -26,7 +26,7 @@ pub fn list_todo_handler(todo_id: i32) -> Result<String, NotFound<String>> {
     Ok(serde_json::to_string(&response).unwrap())
 }
 
-#[put("/done/<todo_id>")]
+#[put("/<todo_id>")]
 pub fn done_todo_handler(todo_id: i32) -> Result<String, NotFound<String>> {
     let todo = done::done_todo(todo_id)?;
     let response = Response {
