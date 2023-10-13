@@ -9,6 +9,8 @@ services:
     image: postgres:15-alpine
     ports:
       - "5432:5432"
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
   web:
     restart: on-failure
     depends_on:
