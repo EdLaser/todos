@@ -4,4 +4,6 @@ WORKDIR /usr/src/api
 
 COPY . .
 
-CMD ["cargo","run"]
+RUN cargo build --release
+
+CMD ["./target/release/main"]
