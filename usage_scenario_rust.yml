@@ -4,7 +4,7 @@ version: 1
 architecture: linux
 description: Test if we can test the API and measure it
 networks:
-  example-network:
+  todo-network:
 services:
   db-container:
     image: postgres:15-alpine
@@ -13,7 +13,7 @@ services:
       POSTGRES_DB: todos
       POSTGRES_PASSWORD: mysecretpassword
     networks:
-      - example-network
+      - todo-network
     ports: 
       - 5432:5432
   
@@ -27,7 +27,7 @@ services:
     ports:
       - 8000:8000
     networks:
-      - example-network
+      - todo-network
 
   test-container:
     build:
