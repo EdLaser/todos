@@ -34,7 +34,7 @@ services:
   test-container:
     build:
       context: ./locust
-      dockerfile: Dockerfile_locust
+      dockerfile: Dockerfile.rust
     networks:
       - todo-network
 

@@ -5,5 +5,5 @@ RUN pip3 install locust
 
 WORKDIR /home/locust
 
-COPY ./locustfile.py .
+COPY ./locustfile_python.py .
 COPY ./locust.conf .
