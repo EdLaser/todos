@@ -43,7 +43,7 @@ flow:
     container: test-container
     commands:
       - type: console
-        command: locust -u 5 -f /home/locust/locustfile.py
+        command: locust -u 5 -f /home/locust/locustfile_rust.py
         note: Starting locust test
         read-notes-stdout: true
 
@@ -51,7 +51,7 @@ flow:
     container: test-container
     commands:
       - type: console
-        command: locust -u 10 -f /home/locust/locustfile.py
+        command: locust -u 10 -f /home/locust/locustfile_rust.py
         note: Starting locust test
         read-notes-stdout: true
 
@@ -59,7 +59,7 @@ flow:
     container: test-container
     commands:
       - type: console
-        command: locust -u 20 -f /home/locust/locustfile.py 
+        command: locust -u 20 -f /home/locust/locustfile_rust.py 
         note: Starting locust test
         read-notes-stdout: true
 
@@ -67,6 +67,6 @@ flow:
     container: test-container
     commands:
       - type: console
-        command: locust -u 50 -f /home/locust/locustfile.py 
+        command: locust -u 50 -f /home/locust/locustfile_rust.py 
         note: Starting locust test
         read-notes-stdout: true

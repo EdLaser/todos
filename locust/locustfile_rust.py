@@ -126,7 +126,7 @@ class TodoAPIUser(FastHttpUser):
             "POST", f"{BASE_URL}/new_todo", json=random.choice(TODO_LSIT)
         ) as resp:
             if resp.js is not None:
-                created_todos.append(resp.json()["id"])
+                created_todos.append(resp.json()["body"]["Todo"]["id"])
             elif resp.status_code != 201 and resp.status_code != 404:
                 resp.failure(WRONG_STATUS_CODE)
 
@@ -176,7 +176,7 @@ class TodoAPIUser(FastHttpUser):
                 "POST", f"{BASE_URL}/new_todo", json=random.choice(TODO_LSIT)
             ) as resp:
                 if resp.js is not None:
-                    created_todos.append(resp.json()["id"])
+                    created_todos.append(resp.json()["body"]["Todo"]["id"])
                 elif resp.status_code != 201 and resp.status_code != 404:
                     resp.failure(WRONG_STATUS_CODE)
 
@@ -194,6 +194,6 @@ class TodoAPIUser(FastHttpUser):
                 "POST", f"{BASE_URL}/new_todo", json=random.choice(TODO_LSIT)
             ) as resp:
                 if resp.js is not None:
-                    created_todos.append(resp.json()["id"])
+                    created_todos.append(resp.json()["body"]["Todo"]["id"])
                 elif resp.status_code != 201 and resp.status_code != 404:
                     resp.failure(WRONG_STATUS_CODE)
