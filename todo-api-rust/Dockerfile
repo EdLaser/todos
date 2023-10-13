@@ -55,6 +55,10 @@ COPY --from=build /usr/local/cargo/bin/main /usr/local/bin/main
 COPY --from=build /usr/src/todo-api/.env /.env
 
 ENV ROCKET_ADDRESS="0.0.0.0"
+ENV ROCKET_PORT=8000
 ENV ROCKET_WORKERS=6
+RUN ROCKET_LOG_LEVEL=normal
+
+EXPOSE 8000
 
 CMD ["main"]
