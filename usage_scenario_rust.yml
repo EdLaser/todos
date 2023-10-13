@@ -16,6 +16,8 @@ services:
       - todo-network
     ports: 
       - 5432:5432
+    volumes:
+      - ./todo-api-rust/init.sql:/docker-entrypoint-initdb.d/init.sql
   
   web:
     restart: on-failure
