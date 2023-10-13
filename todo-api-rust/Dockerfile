@@ -51,7 +51,7 @@ COPY --from=build /lib/${ARCH}-linux-gnu/libcom_err.so* /lib/${ARCH}-linux-gnu/
 COPY --from=build /lib/${ARCH}-linux-gnu/libkeyutils.so* /lib/${ARCH}-linux-gnu/
 
 # Application files
-COPY --from=build /usr/local/cargo/bin/todo-api /usr/local/bin/todo-api
+COPY --from=build /usr/local/cargo/bin/main /usr/local/bin/main
 COPY --from=build /usr/src/todo-api/.env /.env
 
-CMD ["todo-api"]
+CMD ["main"]
