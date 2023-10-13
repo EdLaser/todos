@@ -132,7 +132,7 @@ class TodoAPIUser(FastHttpUser):
 
     @task(3)
     def list_todos(self):
-        with self.rest("GET", f"{BASE_URL}/") as resp:
+        with self.rest("GET", f"{BASE_URL}") as resp:
             if resp.js is None:
                 pass
             elif resp.status_code != 200 and resp.status_code != 404:
