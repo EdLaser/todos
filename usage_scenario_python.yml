@@ -1,7 +1,7 @@
 name: Stress Test API
 author: Ruben
 version: 1
-architecture: macos
+architecture: linux
 description: Test if we can test the API and measure it
 networks:
   todo-network:
